@@ -1,0 +1,49 @@
+# Claude Code Instructions: Feature Specification Directory
+
+## Context
+You are working in a feature specification directory for the Phase II Todo Application. This directory contains specifications, plans, and tasks for a specific feature.
+
+## Directory Structure
+- `spec.md` - Feature specification with user stories and requirements
+- `plan.md` - Implementation plan with architecture decisions
+- `tasks.md` - Detailed implementation tasks
+- `research.md` - Technical research and feasibility studies
+- `data-model.md` - Data structure definitions
+- `quickstart.md` - Quick start guide for the feature
+- `contracts/` - API contracts and interfaces
+- `checklists/` - Quality checklists
+
+## Guidelines for File Creation
+1. Maintain consistency with the established template structure
+2. Follow the specification-driven development approach
+3. Ensure all specifications align with the project constitution
+4. Include proper user stories with acceptance criteria
+5. Document technical decisions and trade-offs
+
+## Specification Standards
+- Include clear user stories with priority levels
+- Define functional and non-functional requirements
+- Specify success criteria with measurable outcomes
+- Document constraints and dependencies
+- Include security and performance considerations
+
+## Planning Standards
+- Document technical architecture decisions
+- Include risk analysis and mitigation strategies
+- Define implementation approach and phases
+- Consider scalability and maintainability
+- Account for testing and validation
+
+## Task Creation Standards
+- Break down implementation into small, testable tasks
+- Include proper file paths and implementation details
+- Consider dependencies between tasks
+- Include validation steps for each task
+- Mark parallelizable tasks with [P]
+
+## Best Practices
+- Follow the established templates in .specify/templates/
+- Maintain traceability between specifications, plans, and tasks
+- Ensure all work aligns with the project constitution
+- Include proper validation and testing strategies
+- Document decisions and rationale

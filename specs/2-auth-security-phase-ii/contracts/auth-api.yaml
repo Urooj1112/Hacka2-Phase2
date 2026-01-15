@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Authentication API
+  description: API for authentication and security in the todo application
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.todoapp.com/v1
+    description: Production server
+
+paths:
+  /auth/login:
+    post:
+      summary: User login
+      description: Authenticate user with credentials and return JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User's email address
+                password:
+                  type: string
+                  format: password
+                  description: User's password
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: JWT token for API access
+                  token_type:
+                    type: string
+                    description: Token type (usually "bearer")
+                  expires_in:
+                    type: integer
+                    description: Token expiry in seconds
+        '400':
+          description: Bad Request - Invalid credentials format
+        '401':
+          description: Unauthorized - Invalid credentials
+        '422':
+          description: Unprocessable Entity - Validation error
+
+  /auth/register:
+    post:
+      summary: User registration
+      description: Register a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User's email address
+                password:
+                  type: string
+                  format: password
+                  description: User's password (minimum 8 characters)
+                username:
+                  type: string
+                  description: Optional username
+              required:
+                - email
+                - password
+      responses:
+        '201':
+          description: Successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+                  user:
+                    $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Bad Request - Invalid input format
+        '409':
+          description: Conflict - User already exists
+        '422':
+          description: Unprocessable Entity - Validation error
+
+  /auth/profile:
+    get:
+      summary: Get user profile
+      description: Retrieve the authenticated user's profile information
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized - Invalid or missing JWT token
+        '403':
+          description: Forbidden - Insufficient permissions
+
+  /auth/logout:
+    post:
+      summary: User logout
+      description: Invalidate the user's session (client-side only due to stateless nature)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully logged out
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Success message
+        '401':
+          description: Unauthorized - Invalid or missing JWT token
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the user
+        email:
+          type: string
+          format: email
+          description: User's email address
+        username:
+          type: string
+          description: User's username (if set)
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the user was created
+      required:
+        - user_id
+        - email
+        - created_at
+    JwtToken:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: JWT token for API access
+        token_type:
+          type: string
+          description: Token type (usually "bearer")
+        expires_in:
+          type: integer
+          description: Token expiry in seconds
+      required:
+        - access_token
+        - token_type
+        - expires_in
