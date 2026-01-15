@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phase2-todo-app"
+version = "0.1.0"
+description = "Full-stack todo application with Next.js and FastAPI"
+authors = [{name = "Developer", email = "dev@example.com"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn>=0.24.0",
+    "sqlmodel>=0.0.16",
+    "better-exceptions>=0.3.3",
+    "python-multipart>=0.0.6",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "neon-python>=0.1.0",
+    "httpx>=0.25.2"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+    "isort>=5.12.0",
+    "pre-commit>=3.5.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["backend/src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+python_files = ["test_*.py", "*_test.py"]
